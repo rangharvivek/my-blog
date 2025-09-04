@@ -1,0 +1,72 @@
+<%- include('layout/header', { title: "Dashboard" }) %>
+<%- include("layout/navbar") %>
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>User List</h3>
+  </div>
+
+  <!-- Flash Messages -->
+  <% if (messages.error && messages.error.length > 0) { %>
+    <% messages.error.forEach(msg => { %>
+      <div class="alert alert-danger"><%= msg %></div>
+    <% }) %>
+  <% } %>
+  <% if (messages.success && messages.success.length > 0) { %>
+    <% messages.success.forEach(msg => { %>
+      <div class="alert alert-success"><%= msg %></div>
+    <% }) %>
+  <% } %>
+
+  <!-- Search Form -->
+  <form method="GET" action="/dashboard" class="mb-3 d-flex">
+    <input type="text" name="search" class="form-control me-2" placeholder="Search users..." value="<%= searchQuery %>">
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+
+  <!-- Users Table -->
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(u => { %>
+        <tr>
+          <td><%= u.username %></td>
+          <td><%= u.email %></td>
+          <td><%= u.createdAt.toDateString() %></td>
+          <td>
+            <a href="/users/<%= u._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
+            <form action="/users/<%= u._id %>/delete" method="POST" style="display:inline;">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="d-flex justify-content-between">
+    <% if (currentPage > 1) { %>
+      <a href="/dashboard?page=<%= currentPage - 1 %>&search=<%= searchQuery %>" class="btn btn-secondary">Previous</a>
+    <% } else { %>
+      <span></span>
+    <% } %>
+
+    <span>Page <%= currentPage %> of <%= totalPages %></span>
+
+    <% if (currentPage < totalPages) { %>
+      <a href="/dashboard?page=<%= currentPage + 1 %>&search=<%= searchQuery %>" class="btn btn-secondary">Next</a>
+    <% } else { %>
+      <span></span>
+    <% } %>
+  </div>
+</div>
+
+<%- include("layout/footer") %>

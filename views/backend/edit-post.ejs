@@ -1,0 +1,17 @@
+<%- include('layout/header', { title: "Edit Post" }) %>
+<div class="container mt-4">
+  <% if (message) { %>
+    <div class="alert alert-info"><%= message %></div>
+  <% } %>
+
+  <h2>Edit Post</h2>
+  <form action="/posts/edit/<%= post._id %>" method="POST" enctype="multipart/form-data">
+    <input type="text" name="title" value="<%= post.title %>" class="form-control mb-2" required>
+    <textarea name="content" class="form-control mb-2"><%= post.content %></textarea>
+    <input type="text" name="categories" value="<%= post.categories %>" class="form-control mb-2">
+    <input type="text" name="tags" value="<%= post.tags.join(',') %>" class="form-control mb-2">
+    <img src="/uploads/<%= post.image %>" alt="" width="150" class="mb-2"><br>
+    <input type="file" name="image" class="form-control mb-2">
+    <button type="submit" class="btn btn-success">Update</button>
+  </form>
+</div>

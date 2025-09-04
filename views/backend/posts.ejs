@@ -1,0 +1,45 @@
+<%- include('layout/header', { title: "posts" } ) %>
+<div class="container mt-4">
+  <% if (message) { %>
+    <div class="alert alert-info"><%= message %></div>
+  <% } %>
+
+  <h2>All Posts</h2>
+  <a href="/posts/create" class="btn btn-primary mb-3">+ Add Post</a>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>content</th>
+        <th>Categories</th>
+        <th>Tags</th>
+        <th>Image</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% posts.forEach(post => { %>
+        <tr>
+          <td><%= post.title %></td>
+          <td><%= post.content %></td>
+          <td><%= post.categories %>
+</td>
+<td><%= post.tags  %></td>
+
+          <td>
+            <% if (post.image) { %>
+<img src="/uploads/<%= post.image %>" alt="<%= post.title %>" width="200">
+            <% } else { %>
+              No Image
+            <% } %>
+          </td>
+          <td>
+            <a href="/posts/edit/<%= post._id %>" class="btn btn-warning btn-sm">Edit</a>
+            <a href="/posts/delete/<%= post._id %>" class="btn btn-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

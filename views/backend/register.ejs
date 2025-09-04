@@ -1,0 +1,88 @@
+<%- include('layout/header', { title: "Register" }) %>
+
+<style>
+  body {
+    background: #f4f7fb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .form-container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  }
+  .form-container h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #333;
+  }
+  .form-label {
+    font-weight: 500;
+    color: #444;
+  }
+  .form-control, .form-select {
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .btn-custom {
+    width: 100%;
+    background: #4e73df;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    color: white;
+    transition: 0.3s;
+  }
+  .btn-custom:hover {
+    background: #3755c0;
+  }
+  .text-small {
+    font-size: 14px;
+    color: #666;
+  }
+</style>
+
+<div class="form-container">
+  <h3>Create an Account</h3>
+
+  <!-- Flash Messages -->
+  <% if (messages.error && messages.error.length > 0) { %>
+    <% messages.error.forEach(msg => { %>
+      <div class="alert alert-danger"><%= msg %></div>
+    <% }) %>
+  <% } %>
+
+  <% if (messages.success && messages.success.length > 0) { %>
+    <% messages.success.forEach(msg => { %>
+      <div class="alert alert-success"><%= msg %></div>
+    <% }) %>
+  <% } %>
+
+  <form action="/register" method="POST">
+    <div class="mb-3">
+      <label class="form-label">Full Name</label>
+      <input type="text" name="username" class="form-control" placeholder="Enter your full name" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Email address</label>
+      <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+    </div>
+
+
+    <button type="submit" class="btn-custom">Create Account</button>
+  </form>
+
+  <p class="text-center mt-3 text-small">
+    Already have an account? <a href="/login">Login</a>
+  </p>
+</div>

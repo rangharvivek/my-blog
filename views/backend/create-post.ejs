@@ -1,0 +1,90 @@
+<%- include('layout/header', { title: "Create Post" } ) %>
+
+<style>
+  body {
+    background: #f4f7fb;
+  }
+  .card-form {
+    max-width: 450px; /* width छोटी */
+    margin: 30px auto; /* ऊपर-नीचे spacing कम */
+    background: #fff;
+    padding: 20px; /* अंदर का padding छोटा */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  }
+  .card-form h3 {
+    text-align: center;
+    margin-bottom: 18px;
+    font-weight: 600;
+    font-size: 20px; /* title छोटा */
+    color: #333;
+  }
+  .form-label {
+    font-weight: 500;
+    font-size: 14px; /* label थोड़ा छोटा */
+    color: #444;
+  }
+  .form-control {
+    border-radius: 6px;
+    padding: 8px 10px; /* input height कम */
+    font-size: 14px;
+  }
+  .btn-custom {
+    width: 100%;
+    background: #4e73df;
+    border: none;
+    padding: 10px; /* button height कम */
+    font-size: 15px;
+    border-radius: 8px;
+    color: white;
+    transition: 0.3s;
+  }
+  .btn-custom:hover {
+    background: #3755c0;
+  }
+  small.text-muted {
+    font-size: 12px;
+  }
+</style>
+
+<div class="card-form">
+  <% if (message) { %>
+    <div class="alert alert-info"><%= message %></div>
+  <% } %>
+
+  <h3>Create New Post</h3>
+  
+  <form action="/posts/create" method="POST" enctype="multipart/form-data">
+    <div class="mb-2">
+      <label class="form-label">Title</label>
+      <input type="text" name="title" class="form-control" placeholder="Enter post title" required>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Content</label>
+      <textarea name="content" rows="3" class="form-control" placeholder="Write something..."></textarea>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Categories</label>
+      <input type="text" name="categories" class="form-control" placeholder="e.g. tech, blog">
+      <small class="text-muted">Use commas for multiple categories</small>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Tags</label>
+      <input type="text" name="tags" class="form-control" placeholder="e.g. node, express">
+      <small class="text-muted">Use commas for multiple tags</small>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Featured Image</label>
+      <input type="file" name="image" class="form-control">
+    </div>
+
+    <button type="submit" class="btn-custom">Create Post</button>
+    <p class="text-center mt-2">
+      <a href="/posts" class="text-decoration-none">← Back to Posts</a>
+    </p>
+  </form>
+</div>
