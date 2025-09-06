@@ -6,7 +6,6 @@
     <h3>User List</h3>
   </div>
 
-  <!-- Flash Messages -->
   <% if (messages.error && messages.error.length > 0) { %>
     <% messages.error.forEach(msg => { %>
       <div class="alert alert-danger"><%= msg %></div>
@@ -18,13 +17,11 @@
     <% }) %>
   <% } %>
 
-  <!-- Search Form -->
   <form method="GET" action="/dashboard" class="mb-3 d-flex">
     <input type="text" name="search" class="form-control me-2" placeholder="Search users..." value="<%= searchQuery %>">
     <button type="submit" class="btn btn-primary">Search</button>
   </form>
 
-  <!-- Users Table -->
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
@@ -51,7 +48,6 @@
     </tbody>
   </table>
 
-  <!-- Pagination -->
   <div class="d-flex justify-content-between">
     <% if (currentPage > 1) { %>
       <a href="/dashboard?page=<%= currentPage - 1 %>&search=<%= searchQuery %>" class="btn btn-secondary">Previous</a>
