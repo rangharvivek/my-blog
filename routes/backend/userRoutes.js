@@ -3,16 +3,12 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../../models/User");
 
-// Middleware: check authentication
 function isAuthenticated(req, res, next) {
   if (req.session.user) return next();
   req.flash("error", "Please login first");
   res.redirect("/login");
 }
 
-// ==========================
-// REGISTER
-// ==========================
 router.get("/register", (req, res) => {
   res.render("backend/register", { messages: req.flash() });
 });
@@ -21,14 +17,12 @@ router.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Email lowercase me store karo
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
       req.flash("error", "Email already exists");
       return res.redirect("/register");
     }
 
-    // User create karo, password will be hashed automatically by pre-save hook
     const newUser = new User({
       username,
       email: email.toLowerCase(),
@@ -45,9 +39,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// ==========================
-// LOGIN
-// ==========================
 router.get("/login", (req, res) => {
   res.render("backend/login", { messages: req.flash() });
 });
@@ -68,7 +59,6 @@ router.post("/login", async (req, res) => {
       return res.redirect("/login");
     }
 
-    // ✅ Save user in session
     req.session.user = {
       id: user._id,
       username: user.username,
@@ -84,32 +74,13 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// ==========================
-// DASHBOARD (protected)
-// ==========================
-// router.get("/dashboard", isAuthenticated, async (req, res) => {
-//   try {
-//     const users = await User.find().select("-password");
-//     res.render("dashboard", {
-//       users,
-//       messages: req.flash(),
-//       user: req.session.user
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     req.flash("error", "Unable to fetch users");
-//     res.redirect("/");
-//   }
-// });
 
-// Protected route for showing dashboard with pagination + search
 router.get("/dashboard", isAuthenticated, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
     const search = req.query.search ? req.query.search.trim() : "";
 
-    // Search by username OR email (case-insensitive)
     const searchFilter = search
       ? {
           $or: [
@@ -142,7 +113,6 @@ router.get("/dashboard", isAuthenticated, async (req, res) => {
   }
 });
 
-// 🔹 Edit User Page
 router.get("/users/:id/edit", isAuthenticated, async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
@@ -160,7 +130,6 @@ router.get("/users/:id/edit", isAuthenticated, async (req, res) => {
 
 
 
-// GET Edit Form
 router.get("/users/:id/edit", isAuthenticated, async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
@@ -176,7 +145,6 @@ router.get("/users/:id/edit", isAuthenticated, async (req, res) => {
   }
 });
 
-// POST Update User
 router.post("/users/:id/edit", isAuthenticated, async (req, res) => {
   try {
     const { username, email } = req.body;
@@ -191,7 +159,6 @@ router.post("/users/:id/edit", isAuthenticated, async (req, res) => {
 });
 
 
-// Delete User
 router.post("/users/:id/delete", isAuthenticated, async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -205,9 +172,6 @@ router.post("/users/:id/delete", isAuthenticated, async (req, res) => {
 });
 
 
-// ==========================
-// LOGOUT
-// ==========================
 router.get("/logout", (req, res) => {
   req.session.destroy(() => {
     res.redirect("/login");
