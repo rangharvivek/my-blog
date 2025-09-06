@@ -3,36 +3,29 @@
 <div class="container my-5">
   <div class="row">
     
-    <!-- Main Post Content -->
     <div class="col-lg-8">
 
       <article class="mb-5">
 
-        <!-- Title -->
         <h1 class="mb-3 fw-bold"><%= post.title %></h1>
 
-        <!-- Meta Info -->
         <div class="mb-3 text-muted small">
           <span>Posted on <%= post.createdAt ? post.createdAt.toDateString() : "Unknown Date" %></span>
           &nbsp;|&nbsp;
           <span>Category: <%= post.categories %></span>
         </div>
 
-        <!-- Featured Image -->
         <div class="mb-4">
           <img src="/uploads/<%= post.image %>" 
                alt="Post Image" 
                class="img-fluid rounded w-100">
         </div>
 
-        <!-- Content -->
         <div class="post-content fs-5" style="line-height:1.8;">
           <p><%= post.content %></p>
         </div>
 
-      </article>
 
-      <!-- Optional: Related Posts -->
       <% if (relatedPosts && relatedPosts.length > 0) { %>
         <div class="related-posts mt-5">
           <h4>Related Posts</h4>
@@ -48,7 +41,6 @@
 
     </div>
 
-    <!-- Sidebar (Optional) -->
     <div class="col-lg-4">
       <div class="p-3 bg-light rounded">
         <h5>Categories</h5>
